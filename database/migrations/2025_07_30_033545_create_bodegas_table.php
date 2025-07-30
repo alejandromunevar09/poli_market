@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDetalleVentasTable extends Migration
+class CreateBodegasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ class CreateDetalleVentasTable extends Migration
      */
     public function up()
     {
-        Schema::create('detalle_ventas', function (Blueprint $table) {
+        Schema::create('bodegas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('venta_id')->constrained()->onDelete('cascade');
-            $table->foreignId('producto_id')->constrained()->onDelete('restrict');
-            $table->integer('cantidad');
-            $table->decimal('subtotal', 10, 2);
             $table->timestamps();
         });
     }
@@ -30,6 +26,6 @@ class CreateDetalleVentasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('detalle_ventas');
+        Schema::dropIfExists('bodegas');
     }
 }

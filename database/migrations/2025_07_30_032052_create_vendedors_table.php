@@ -15,6 +15,9 @@ class CreateVendedorsTable extends Migration
     {
         Schema::create('vendedors', function (Blueprint $table) {
             $table->id();
+            $table->string('nombre');
+            $table->string('email')->unique();
+            $table->boolean('autorizado')->default(false);
             $table->timestamps();
         });
     }

@@ -5,16 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class DetalleVenta extends Model
+class StockProducto extends Model
 {
     use HasFactory;
 
-    public function venta() {
-        return $this->belongsTo(Venta::class);
+    public function bodega()
+    {
+        return $this->belongsTo(Bodega::class);
     }
 
-    public function producto() {
+    public function producto()
+    {
         return $this->belongsTo(Producto::class);
     }
-
 }
