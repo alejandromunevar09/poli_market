@@ -13,17 +13,19 @@ class VendedorController extends Controller
      */
     public function index()
     {
-        //
+        $vendedors = Vendedor::all();
+        return view('vendedores.index', compact('vendedors'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('vendedores.create');
+    }
+
+    public function edit($id)
+    {
+        $vendedor = Vendedor::findOrFail($id);
+        return view('vendedores.edit', compact('vendedor'));
     }
 
     /**
@@ -48,16 +50,7 @@ class VendedorController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+
 
     /**
      * Update the specified resource in storage.

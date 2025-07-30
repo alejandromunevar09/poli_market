@@ -1,5 +1,16 @@
 <?php
 
+use App\Http\Controllers\BodegaController;
+use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\DetalleVentaController;
+use App\Http\Controllers\EntregaController;
+use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\ProductoProveedorController;
+use App\Http\Controllers\ProveedorController;
+use App\Http\Controllers\RecursosHumanosController;
+use App\Http\Controllers\StockProductoController;
+use App\Http\Controllers\VendedorController;
+use App\Http\Controllers\VentaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,7 +44,7 @@ Route::post('/recursos-humanos/autorizar-vendedor/{id}', [RecursosHumanosControl
 Route::get('/ventas/{id}/calcular-total', [VentaController::class, 'calcularTotal']);
 
 // --- Ventas ---
-Route::post('/ventas/registrar', [VentasController::class, 'registrarVenta'])->name('ventas.registrar');
+Route::post('/ventas/registrar', [VentaController::class, 'registrarVenta'])->name('ventas.registrar');
 
 // --- Entregas ---
 Route::post('/entregas/{id}/marcar-como-entregada', [EntregaController::class, 'marcarComoEntregada'])->name('entregas.marcar');

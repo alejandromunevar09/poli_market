@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Venta;
 use Illuminate\Http\Request;
 
 class VentaController extends Controller
@@ -13,17 +14,24 @@ class VentaController extends Controller
      */
     public function index()
     {
-        //
+        $ventas = Venta::all();
+        return view('ventas.index', compact('ventas'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('ventas.create');
+    }
+
+    public function edit($id)
+    {
+        $venta = Venta::findOrFail($id);
+        return view('ventas.edit', compact('venta'));
+    }
+
+    public function registrar()
+    {
+        return view('ventas.registrarVenta');
     }
 
     /**
@@ -48,16 +56,7 @@ class VentaController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+
 
     /**
      * Update the specified resource in storage.

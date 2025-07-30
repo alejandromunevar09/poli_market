@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\RecursosHumanos;
 use Illuminate\Http\Request;
 
 class RecursosHumanosController extends Controller
@@ -13,7 +14,13 @@ class RecursosHumanosController extends Controller
      */
     public function index()
     {
-        //
+        $recursoshumanos = RecursosHumanos::all();
+        return view('recursoshumanos.index', compact('recursoshumanos'));
+    }
+
+    public function autorizar()
+    {
+        return view('recursoshumanos.autorizarVendedor');
     }
 
     /**

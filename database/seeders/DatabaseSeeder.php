@@ -2,6 +2,13 @@
 
 namespace Database\Seeders;
 
+use App\Models\Bodega;
+use App\Models\Cliente;
+use App\Models\DetalleVenta;
+use App\Models\Entrega;
+use App\Models\Producto;
+use App\Models\Vendedor;
+use App\Models\Venta;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder

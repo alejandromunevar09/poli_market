@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\StockProducto;
 use Illuminate\Http\Request;
 
 class StockProductoController extends Controller
@@ -13,7 +14,8 @@ class StockProductoController extends Controller
      */
     public function index()
     {
-        //
+        $stockproductos = StockProducto::all();
+        return view('stock.index', compact('stockproductos'));
     }
 
     /**
@@ -80,5 +82,10 @@ class StockProductoController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function consultar()
+    {
+        return view('stock.consultarStock');
     }
 }

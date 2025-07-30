@@ -2,35 +2,38 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Entrega;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class EntregaController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function index()
     {
-        //
+        $entregas = Entrega::all();
+        return view('entregas.index', compact('entregas'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('entregas.create');
     }
+
+
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function store(Request $request)
     {
@@ -41,7 +44,7 @@ class EntregaController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show($id)
     {
@@ -52,11 +55,12 @@ class EntregaController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit($id)
     {
-        //
+        $entrega = Entrega::findOrFail($id);
+        return view('entregas.edit', compact('entrega'));
     }
 
     /**
@@ -64,7 +68,7 @@ class EntregaController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, $id)
     {
@@ -75,7 +79,7 @@ class EntregaController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy($id)
     {
@@ -102,7 +106,7 @@ class EntregaController extends Controller
             'estado' => $request->estado,
             'cantidad' => $request->cantidad
         ]);
-        
+
         return response()->json(['message' => 'Entrega registrada correctamente.', 'entrega' => $entrega]);
     }
 
