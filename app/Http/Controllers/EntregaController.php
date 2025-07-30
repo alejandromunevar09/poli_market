@@ -105,4 +105,20 @@ class EntregaController extends Controller
         
         return response()->json(['message' => 'Entrega registrada correctamente.', 'entrega' => $entrega]);
     }
+
+    public function marcarComoEntregada($id)
+    {
+        $entrega = Entrega::findOrFail($id);
+
+        if ($entrega->estado === 'entregada') {
+            return response()->json(['message' => 'La entrega ya fue marcada como entregada.'], 400);
+        }
+
+        $entrega->update([
+            'estado' => 'entregada',
+            'fecha_entrega' => now()
+        ]);
+
+        return response()->json(['message' => 'Entrega marcada como entregada.']);
+    }
 }

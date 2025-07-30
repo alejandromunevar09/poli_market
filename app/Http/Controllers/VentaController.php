@@ -94,4 +94,49 @@ class VentaController extends Controller
 
         return response()->json(['total' => $total]);
     }
+
+    public function registrarVenta(Request $request)
+    {
+        $request->validate([
+            'cliente_id' => 'required|exists:clientes,id',
+            'vendedor_id' => 'required|exists:vendedores,id',
+            'productos' => 'required|array|min:1',
+            'productos.*.id' => 'required|exists:productos,id',
+            'productos.*.cantidad' => 'required|integer|min:1'
+        ]);
+
+        DB::beginTransaction();
+        try {
+            $venta = Venta::create([
+                'cliente_id' => $request->cliente_id,
+                'vendedor_id' => $request->vendedor_id,
+                'fecha_venta' => now(),
+                'total' => 0 // se calcula luego
+            ]);
+
+            $total = 0;
+
+            foreach ($request->productos as $item) {
+                $producto = Producto::findOrFail($item['id']);
+                $subtotal = $producto->precio * $item['cantidad'];
+
+                $venta->detalles()->create([
+                    'producto_id' => $producto->id,
+                    'cantidad' => $item['cantidad'],
+                    'subtotal' => $subtotal
+                ]);
+
+                $total += $subtotal;
+            }
+
+            $venta->update(['total' => $total]);
+
+            DB::commit();
+            return response()->json(['message' => 'Venta registrada exitosamente', 'venta_id' => $venta->id]);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
 }

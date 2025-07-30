@@ -30,7 +30,16 @@ Route::resource('entregas', EntregaController::class);
 Route::resource('recursos-humanos', RecursosHumanosController::class);
 
 Route::post('/recursos-humanos/autorizar-vendedor/{id}', [RecursosHumanosController::class, 'autorizarVendedor']);
-Route::post('/entregas/registrar', [EntregaController::class, 'registrar']);
-Route::post('/bodegas/reabastecer', [BodegaController::class, 'reabastecer']);
 Route::get('/ventas/{id}/calcular-total', [VentaController::class, 'calcularTotal']);
 
+// --- Ventas ---
+Route::post('/ventas/registrar', [VentasController::class, 'registrarVenta'])->name('ventas.registrar');
+
+// --- Entregas ---
+Route::post('/entregas/{id}/marcar-como-entregada', [EntregaController::class, 'marcarComoEntregada'])->name('entregas.marcar');
+Route::post('/entregas/registrar', [EntregaController::class, 'registrar']);
+
+// --- Bodegas ---
+Route::post('/bodegas/reabastecer', [BodegaController::class, 'reabastecer']);
+Route::post('/bodegas/registrar-salida', [BodegaController::class, 'registrarSalida'])->name('bodegas.registrarSalida');
+Route::get('/bodegas/{productoId}/{bodegaId}', [BodegaController::class, 'consultarStock'])->name('bodegas.consultar');

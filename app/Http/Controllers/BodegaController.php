@@ -101,5 +101,49 @@ class BodegaController extends Controller
         return response()->json(['message' => 'Producto reabastecido.', 'stock' => $stock]);
     }
 
+    public function registrarSalida(Request $request)
+    {
+        $request->validate([
+            'venta_id' => 'required|exists:ventas,id',
+            'bodega_id' => 'required|exists:bodegas,id'
+        ]);
+
+        $venta = Venta::with('detalles')->findOrFail($request->venta_id);
+
+        foreach ($venta->detalles as $detalle) {
+            $stock = StockProducto::where('producto_id', $detalle->producto_id)
+                ->where('bodega_id', $request->bodega_id)
+                ->first();
+
+            if (!$stock || $stock->cantidad < $detalle->cantidad) {
+                return response()->json([
+                    'message' => "No hay suficiente stock para el producto ID {$detalle->producto_id}"
+                ], 400);
+            }
+
+            $stock->cantidad -= $detalle->cantidad;
+            $stock->save();
+        }
+
+        return response()->json(['message' => 'Salida registrada y stock actualizado.']);
+    }
+
+    public function consultarStock($productoId, $bodegaId)
+    {
+        $stock = StockProducto::where('producto_id', $productoId)
+            ->where('bodega_id', $bodegaId)
+            ->first();
+
+        if (!$stock) {
+            return response()->json(['message' => 'No hay stock registrado para este producto en la bodega.'], 404);
+        }
+
+        return response()->json([
+            'producto_id' => $productoId,
+            'bodega_id' => $bodegaId,
+            'cantidad' => $stock->cantidad
+        ]);
+    }
+
     
 }
